@@ -1,45 +1,44 @@
 const cameraInput = document.getElementById("cameraInput");
 const fileInput = document.getElementById("fileInput");
+const cameraBtn = document.getElementById("cameraBtn");
+const fileBtn = document.getElementById("fileBtn");
+const preview = document.getElementById("preview");
 const analyzeBtn = document.getElementById("analyzeBtn");
 const result = document.getElementById("result");
-const app = document.getElementById("app");
 
 let imageData = null;
 
+// Botones
+cameraBtn.onclick = () => cameraInput.click();
+fileBtn.onclick = () => fileInput.click();
+
+// Cargar imagen
 function handleImage(file) {
+  if (!file) return;
+
   const reader = new FileReader();
   reader.onload = () => {
     imageData = reader.result;
-
-    // Imagen como fondo de la app
-    app.style.backgroundImage = `url(${imageData})`;
-
-    result.innerHTML = "📸 Imagen cargada. Pulsa **Analizar planta**.";
+    preview.src = imageData;
+    preview.style.display = "block";
+    result.innerHTML = "";
   };
   reader.readAsDataURL(file);
 }
 
-cameraInput.addEventListener("change", () => {
-  if (cameraInput.files[0]) {
-    handleImage(cameraInput.files[0]);
-  }
-});
+cameraInput.onchange = () => handleImage(cameraInput.files[0]);
+fileInput.onchange = () => handleImage(fileInput.files[0]);
 
-fileInput.addEventListener("change", () => {
-  if (fileInput.files[0]) {
-    handleImage(fileInput.files[0]);
-  }
-});
-
-function indiceDiagnostico(base64) {
+// Análisis estable
+function hashImagen(data) {
   let total = 0;
-  for (let i = 0; i < base64.length; i++) {
-    total += base64.charCodeAt(i);
+  for (let i = 0; i < data.length; i++) {
+    total += data.charCodeAt(i);
   }
   return total;
 }
 
-analyzeBtn.addEventListener("click", () => {
+analyzeBtn.onclick = () => {
   if (!imageData) {
     result.innerHTML = "⚠️ Primero toma o selecciona una imagen.";
     return;
@@ -48,16 +47,33 @@ analyzeBtn.addEventListener("click", () => {
   result.innerHTML = "🔍 Analizando planta…";
 
   setTimeout(() => {
-    const respuestas = [
-      "💧 Falta de riego. Aumenta la frecuencia moderadamente.",
-      "☀️ Exceso de sol directo. Muévela a luz indirecta.",
-      "🪴 Buen estado, pero recomienda abono orgánico.",
-      "🌿 Hojas caídas: revisa drenaje y humedad.",
-      "✅ Planta saludable. Mantén cuidados actuales."
+    const diagnosticos = [
+      {
+        estado: "Falta de agua",
+        consejo: "Aumenta ligeramente el riego y revisa la humedad del sustrato."
+      },
+      {
+        estado: "Exceso de sol",
+        consejo: "Colócala en luz indirecta para evitar estrés."
+      },
+      {
+        estado: "Buen estado",
+        consejo: "Mantén riego moderado y fertiliza cada 3 semanas."
+      },
+      {
+        estado: "Falta de nutrientes",
+        consejo: "Aplica abono orgánico o fertilizante balanceado."
+      }
     ];
 
-    const i = indiceDiagnostico(imageData) % respuestas.length;
+    const indice = hashImagen(imageData) % diagnosticos.length;
+    const d = diagnosticos[indice];
 
-    result.innerHTML = `<strong>Resultado:</strong><br><br>${respuestas[i]}`;
-  }, 1500);
-});
+    result.innerHTML = `
+      <strong>🌿 Estado detectado:</strong><br>
+      ${d.estado}<br><br>
+      <strong>✅ Recomendación:</strong><br>
+      ${d.consejo}
+    `;
+  }, 1600);
+};
