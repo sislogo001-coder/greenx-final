@@ -1,25 +1,37 @@
-const imageInput = document.getElementById("imageInput");
-const preview = document.getElementById("preview");
+const cameraInput = document.getElementById("cameraInput");
+const fileInput = document.getElementById("fileInput");
 const analyzeBtn = document.getElementById("analyzeBtn");
 const result = document.getElementById("result");
+const app = document.getElementById("app");
 
 let imageData = null;
 
-imageInput.addEventListener("change", () => {
-  const file = imageInput.files[0];
-  if (!file) return;
-
+function handleImage(file) {
   const reader = new FileReader();
   reader.onload = () => {
     imageData = reader.result;
-    preview.src = imageData;
-    preview.style.display = "block";
-    result.innerHTML = "📸 Imagen cargada. Presiona **Analizar planta**.";
+
+    // Imagen como fondo de la app
+    app.style.backgroundImage = `url(${imageData})`;
+
+    result.innerHTML = "📸 Imagen cargada. Pulsa **Analizar planta**.";
   };
   reader.readAsDataURL(file);
+}
+
+cameraInput.addEventListener("change", () => {
+  if (cameraInput.files[0]) {
+    handleImage(cameraInput.files[0]);
+  }
 });
 
-function generarIndice(base64) {
+fileInput.addEventListener("change", () => {
+  if (fileInput.files[0]) {
+    handleImage(fileInput.files[0]);
+  }
+});
+
+function indiceDiagnostico(base64) {
   let total = 0;
   for (let i = 0; i < base64.length; i++) {
     total += base64.charCodeAt(i);
@@ -29,26 +41,23 @@ function generarIndice(base64) {
 
 analyzeBtn.addEventListener("click", () => {
   if (!imageData) {
-    result.innerHTML = "⚠️ Primero toma o selecciona una foto de la planta.";
+    result.innerHTML = "⚠️ Primero toma o selecciona una imagen.";
     return;
   }
 
   result.innerHTML = "🔍 Analizando planta…";
 
   setTimeout(() => {
-    const diagnosticos = [
-      "🌿 La planta muestra signos de **falta de riego**. Se recomienda aumentar la frecuencia de agua.",
-      "☀️ Posible **exceso de sol directo**. Intenta moverla a luz indirecta.",
-      "🪴 Buen estado general, pero podría beneficiarse de **abono orgánico**.",
-      "💧 Hojas algo caídas. Revisa **humedad y drenaje del sustrato**.",
-      "🌱 La planta se ve saludable. Mantén riego moderado y fertiliza cada 3 semanas."
+    const respuestas = [
+      "💧 Falta de riego. Aumenta la frecuencia moderadamente.",
+      "☀️ Exceso de sol directo. Muévela a luz indirecta.",
+      "🪴 Buen estado, pero recomienda abono orgánico.",
+      "🌿 Hojas caídas: revisa drenaje y humedad.",
+      "✅ Planta saludable. Mantén cuidados actuales."
     ];
 
-    const indice = generarIndice(imageData) % diagnosticos.length;
+    const i = indiceDiagnostico(imageData) % respuestas.length;
 
-    result.innerHTML = `
-      <strong>Resultado:</strong><br><br>
-      ${diagnosticos[indice]}
-    `;
+    result.innerHTML = `<strong>Resultado:</strong><br><br>${respuestas[i]}`;
   }, 1500);
 });
