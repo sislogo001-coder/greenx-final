@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GreenX Plant Care</title>
 
-  <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#000000">
-
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,17 +16,17 @@
     <p class="subtitle">Analiza la salud de tus plantas</p>
 
     <!-- Inputs ocultos -->
-    <input type="file" id="cameraInput" accept="image/*" capture="environment">
-    <input type="file" id="fileInput" accept="image/*">
+    <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+    <input type="file" id="galleryInput" accept="image/*" hidden>
 
-    <!-- Botones -->
+    <!-- Botones principales -->
     <div class="buttons">
       <button id="cameraBtn">📷 Tomar foto</button>
-      <button id="fileBtn">🖼️ Elegir imagen</button>
+      <button id="galleryBtn">🖼️ Elegir imagen</button>
     </div>
 
     <!-- Vista previa -->
-    <img id="preview" />
+    <img id="preview" alt="Vista previa de la planta">
 
     <!-- Analizar -->
     <button id="analyzeBtn">🌱 Analizar planta</button>
