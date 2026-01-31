@@ -22,7 +22,7 @@ galleryBtn.addEventListener("click", () => {
   galleryInput.click();
 });
 
-// Manejar imagen
+// Cargar imagen
 function cargarImagen(file) {
   if (!file) return;
 
@@ -44,7 +44,7 @@ galleryInput.addEventListener("change", () => {
   cargarImagen(galleryInput.files[0]);
 });
 
-// Hash estable
+// Hash estable (misma imagen = mismo resultado)
 function hashImagen(data) {
   let total = 0;
   for (let i = 0; i < data.length; i++) {
@@ -53,10 +53,25 @@ function hashImagen(data) {
   return total;
 }
 
-// Analizar
+// Mostrar abonos orgánicos
+function mostrarAbonos() {
+  result.innerHTML += `
+    <div class="organic-box">
+      <h3>🌿 Abonos orgánicos recomendados</h3>
+      <ul>
+        <li><strong>🍌 Cáscara de plátano:</strong> Hervir, enfriar y usar el agua para regar.</li>
+        <li><strong>🍚 Agua de arroz:</strong> Rica en minerales. Usar sin sal.</li>
+        <li><strong>☕ Café usado:</strong> Secar y mezclar con la tierra.</li>
+        <li><strong>🥚 Cáscara de huevo:</strong> Triturar y aplicar como calcio natural.</li>
+      </ul>
+    </div>
+  `;
+}
+
+// Analizar planta
 analyzeBtn.addEventListener("click", () => {
   if (!imageData) {
-    result.innerHTML = "⚠️ Primero toma o elige una imagen de una planta.";
+    result.innerHTML = "⚠️ Primero toma o selecciona una imagen de una planta.";
     return;
   }
 
@@ -64,10 +79,26 @@ analyzeBtn.addEventListener("click", () => {
 
   setTimeout(() => {
     const diagnosticos = [
-      { estado: "Falta de agua", consejo: "Riega un poco más y revisa la humedad." },
-      { estado: "Exceso de sol", consejo: "Muévela a luz indirecta." },
-      { estado: "Buen estado", consejo: "Continúa con riego moderado y fertiliza ocasionalmente." },
-      { estado: "Falta de nutrientes", consejo: "Aplica abono orgánico o fertilizante balanceado." }
+      {
+        estado: "Falta de agua",
+        consejo: "Riega con mayor frecuencia y revisa la humedad del sustrato.",
+        abono: false
+      },
+      {
+        estado: "Exceso de sol",
+        consejo: "Colócala en un lugar con luz indirecta.",
+        abono: false
+      },
+      {
+        estado: "Buen estado",
+        consejo: "La planta se ve sana. Puedes fertilizar de forma ocasional.",
+        abono: true
+      },
+      {
+        estado: "Falta de nutrientes",
+        consejo: "Se recomienda aplicar abono orgánico o fertilizante balanceado.",
+        abono: true
+      }
     ];
 
     const indice = hashImagen(imageData) % diagnosticos.length;
@@ -79,5 +110,12 @@ analyzeBtn.addEventListener("click", () => {
       <strong>✅ Recomendación:</strong><br>
       ${d.consejo}
     `;
+
+    if (d.abono) {
+      result.innerHTML += `
+        <br>
+        <button onclick="mostrarAbonos()">🌱 Ver abonos orgánicos</button>
+      `;
+    }
   }, 1500);
 });
