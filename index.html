@@ -1,57 +1,28 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>GreenX Plant Doctor</title>
-
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#000000">
-
-  <!-- CSS -->
+  <meta charset="UTF-8">
+  <title>GreenX – Diagnóstico de Plantas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <header class="app-header">
-    <h1>🌱 GreenX</h1>
-    <p>Diagnóstico inteligente de plantas</p>
-  </header>
+  <h1>🌱 GreenX</h1>
+  <p>Diagnóstico rápido de plantas</p>
 
-  <main class="container">
+  <!-- Cámara / Archivo -->
+  <input type="file" id="imageInput" accept="image/*" capture="environment">
 
-    <!-- CÁMARA / FOTO -->
-    <section class="card">
-      <h2>📸 Tomar foto de tu planta</h2>
+  <div class="frame">
+    <img id="preview" alt="Vista previa de la planta">
+  </div>
 
-      <input
-        type="file"
-        id="photoInput"
-        accept="image/*"
-        capture="environment"
-      >
+  <button id="analyzeBtn">Analizar planta</button>
 
-      <img id="preview" alt="Vista previa de la planta">
-    </section>
+  <div id="result" class="result"></div>
 
-    <!-- ANÁLISIS -->
-    <section class="card">
-      <h2>🧠 Diagnóstico</h2>
-      <button id="analyzeBtn">Analizar planta</button>
-      <div id="result"></div>
-    </section>
-
-  </main>
-
-  <footer>
-    <p>GreenX © 2026</p>
-  </footer>
-
-  <!-- JS -->
   <script src="app.js"></script>
-
 </body>
 </html>
+
