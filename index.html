@@ -2,29 +2,35 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>GreenX – Diagnóstico de Plantas</title>
+  <title>GreenX – Identificador de Plantas</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="app">
+  <div class="app" id="app">
 
     <h1>🌱 GreenX</h1>
-    <p class="subtitle">Diagnóstico rápido de plantas</p>
+    <p class="subtitle">Identifica y cuida tus plantas</p>
 
-    <input 
-      type="file" 
-      id="imageInput" 
-      accept="image/*" 
-      capture="environment"
-    >
+    <!-- BOTONES -->
+    <div class="actions">
 
-    <div class="frame">
-      <img id="preview" alt="Vista previa de la planta">
+      <!-- Tomar foto -->
+      <label class="action-btn">
+        📷 Tomar foto
+        <input type="file" id="cameraInput" accept="image/*" capture="environment">
+      </label>
+
+      <!-- Elegir archivo -->
+      <label class="action-btn secondary">
+        📁 Seleccionar imagen
+        <input type="file" id="fileInput" accept="image/*">
+      </label>
+
     </div>
 
-    <button id="analyzeBtn">Analizar planta</button>
+    <button id="analyzeBtn">🌿 Analizar planta</button>
 
     <div id="result" class="result"></div>
 
