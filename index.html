@@ -8,21 +8,28 @@
 </head>
 <body>
 
-  <h1>🌱 GreenX</h1>
-  <p>Diagnóstico rápido de plantas</p>
+  <div class="app">
 
-  <!-- Cámara / Archivo -->
-  <input type="file" id="imageInput" accept="image/*" capture="environment">
+    <h1>🌱 GreenX</h1>
+    <p class="subtitle">Diagnóstico rápido de plantas</p>
 
-  <div class="frame">
-    <img id="preview" alt="Vista previa de la planta">
+    <input 
+      type="file" 
+      id="imageInput" 
+      accept="image/*" 
+      capture="environment"
+    >
+
+    <div class="frame">
+      <img id="preview" alt="Vista previa de la planta">
+    </div>
+
+    <button id="analyzeBtn">Analizar planta</button>
+
+    <div id="result" class="result"></div>
+
   </div>
-
-  <button id="analyzeBtn">Analizar planta</button>
-
-  <div id="result" class="result"></div>
 
   <script src="app.js"></script>
 </body>
 </html>
-
