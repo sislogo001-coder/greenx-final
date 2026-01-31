@@ -11,7 +11,7 @@ body {
 }
 
 .app {
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.78);
   min-height: 100vh;
   padding: 20px;
   text-align: center;
@@ -44,7 +44,7 @@ button {
   border-radius: 12px;
   font-size: 15px;
   cursor: pointer;
-  min-width: 150px;
+  min-width: 160px;
 }
 
 button:hover {
@@ -71,4 +71,30 @@ button:hover {
   border-radius: 12px;
   border: 1px solid orange;
   font-size: 15px;
+  text-align: left;
+}
+
+/* ===== ABONOS ORGÁNICOS ===== */
+
+.organic-box {
+  margin-top: 15px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid #4caf50;
+  border-radius: 12px;
+  padding: 15px;
+  font-size: 14px;
+}
+
+.organic-box h3 {
+  margin-top: 0;
+  color: #4caf50;
+  font-size: 16px;
+}
+
+.organic-box ul {
+  padding-left: 18px;
+}
+
+.organic-box li {
+  margin-bottom: 8px;
 }
