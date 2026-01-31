@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>GreenX – Identificador de Plantas</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenX Plant Care</title>
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="app" id="app">
+  <div class="app">
 
-    <h1>🌱 GreenX</h1>
-    <p class="subtitle">Identifica y cuida tus plantas</p>
+    <h1>🌿 GreenX</h1>
+    <p class="subtitle">Analiza la salud de tus plantas</p>
 
-    <!-- BOTONES -->
-    <div class="actions">
+    <!-- Inputs ocultos -->
+    <input type="file" id="cameraInput" accept="image/*" capture="environment">
+    <input type="file" id="fileInput" accept="image/*">
 
-      <!-- Tomar foto -->
-      <label class="action-btn">
-        📷 Tomar foto
-        <input type="file" id="cameraInput" accept="image/*" capture="environment">
-      </label>
-
-      <!-- Elegir archivo -->
-      <label class="action-btn secondary">
-        📁 Seleccionar imagen
-        <input type="file" id="fileInput" accept="image/*">
-      </label>
-
+    <!-- Botones -->
+    <div class="buttons">
+      <button id="cameraBtn">📷 Tomar foto</button>
+      <button id="fileBtn">🖼️ Elegir imagen</button>
     </div>
 
-    <button id="analyzeBtn">🌿 Analizar planta</button>
+    <!-- Vista previa -->
+    <img id="preview" />
 
-    <div id="result" class="result"></div>
+    <!-- Analizar -->
+    <button id="analyzeBtn">🌱 Analizar planta</button>
+
+    <!-- Resultado -->
+    <div id="result"></div>
 
   </div>
 
