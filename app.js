@@ -1,19 +1,29 @@
 const cameraInput = document.getElementById("cameraInput");
-const fileInput = document.getElementById("fileInput");
+const galleryInput = document.getElementById("galleryInput");
+
 const cameraBtn = document.getElementById("cameraBtn");
-const fileBtn = document.getElementById("fileBtn");
+const galleryBtn = document.getElementById("galleryBtn");
+
 const preview = document.getElementById("preview");
 const analyzeBtn = document.getElementById("analyzeBtn");
 const result = document.getElementById("result");
 
 let imageData = null;
 
-// Botones
-cameraBtn.onclick = () => cameraInput.click();
-fileBtn.onclick = () => fileInput.click();
+// Abrir cámara
+cameraBtn.addEventListener("click", () => {
+  cameraInput.value = "";
+  cameraInput.click();
+});
 
-// Cargar imagen
-function handleImage(file) {
+// Abrir galería
+galleryBtn.addEventListener("click", () => {
+  galleryInput.value = "";
+  galleryInput.click();
+});
+
+// Manejar imagen
+function cargarImagen(file) {
   if (!file) return;
 
   const reader = new FileReader();
@@ -26,10 +36,15 @@ function handleImage(file) {
   reader.readAsDataURL(file);
 }
 
-cameraInput.onchange = () => handleImage(cameraInput.files[0]);
-fileInput.onchange = () => handleImage(fileInput.files[0]);
+cameraInput.addEventListener("change", () => {
+  cargarImagen(cameraInput.files[0]);
+});
 
-// Análisis estable
+galleryInput.addEventListener("change", () => {
+  cargarImagen(galleryInput.files[0]);
+});
+
+// Hash estable
 function hashImagen(data) {
   let total = 0;
   for (let i = 0; i < data.length; i++) {
@@ -38,9 +53,10 @@ function hashImagen(data) {
   return total;
 }
 
-analyzeBtn.onclick = () => {
+// Analizar
+analyzeBtn.addEventListener("click", () => {
   if (!imageData) {
-    result.innerHTML = "⚠️ Primero toma o selecciona una imagen.";
+    result.innerHTML = "⚠️ Primero toma o elige una imagen de una planta.";
     return;
   }
 
@@ -48,22 +64,10 @@ analyzeBtn.onclick = () => {
 
   setTimeout(() => {
     const diagnosticos = [
-      {
-        estado: "Falta de agua",
-        consejo: "Aumenta ligeramente el riego y revisa la humedad del sustrato."
-      },
-      {
-        estado: "Exceso de sol",
-        consejo: "Colócala en luz indirecta para evitar estrés."
-      },
-      {
-        estado: "Buen estado",
-        consejo: "Mantén riego moderado y fertiliza cada 3 semanas."
-      },
-      {
-        estado: "Falta de nutrientes",
-        consejo: "Aplica abono orgánico o fertilizante balanceado."
-      }
+      { estado: "Falta de agua", consejo: "Riega un poco más y revisa la humedad." },
+      { estado: "Exceso de sol", consejo: "Muévela a luz indirecta." },
+      { estado: "Buen estado", consejo: "Continúa con riego moderado y fertiliza ocasionalmente." },
+      { estado: "Falta de nutrientes", consejo: "Aplica abono orgánico o fertilizante balanceado." }
     ];
 
     const indice = hashImagen(imageData) % diagnosticos.length;
@@ -75,5 +79,5 @@ analyzeBtn.onclick = () => {
       <strong>✅ Recomendación:</strong><br>
       ${d.consejo}
     `;
-  }, 1600);
-};
+  }, 1500);
+});
