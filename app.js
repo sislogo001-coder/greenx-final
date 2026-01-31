@@ -3,47 +3,55 @@ const preview = document.getElementById("preview");
 const analyzeBtn = document.getElementById("analyzeBtn");
 const result = document.getElementById("result");
 
-let imageLoaded = false;
+let imageData = null;
 
-// Mostrar imagen al tomar foto o seleccionar archivo
+// Cargar imagen
 imageInput.addEventListener("change", () => {
   const file = imageInput.files[0];
   if (!file) return;
 
   const reader = new FileReader();
   reader.onload = () => {
-    preview.src = reader.result;
+    imageData = reader.result;
+    preview.src = imageData;
     preview.style.display = "block";
     result.innerHTML = "";
-    imageLoaded = true;
   };
   reader.readAsDataURL(file);
 });
 
-// Análisis simulado
+// Generar un número consistente a partir de la imagen
+function generarIndiceDesdeImagen(base64) {
+  let suma = 0;
+  for (let i = 0; i < base64.length; i++) {
+    suma += base64.charCodeAt(i);
+  }
+  return suma;
+}
+
 analyzeBtn.addEventListener("click", () => {
-  if (!imageLoaded) {
+  if (!imageData) {
     result.innerHTML = "⚠️ Primero toma o selecciona una foto de la planta.";
     return;
   }
 
-  result.innerHTML = "🔍 Analizando planta...";
+  result.innerHTML = "🔍 Analizando planta…";
 
   setTimeout(() => {
-    const respuestas = [
+    const diagnosticos = [
       "🌿 La planta muestra signos de **falta de riego**. Se recomienda aumentar la frecuencia de agua.",
       "☀️ Posible **exceso de sol directo**. Intenta colocarla en luz indirecta.",
-      "🪴 La planta parece saludable, pero podría beneficiarse de **abono orgánico**.",
-      "💧 Hojas ligeramente caídas: posible **estrés hídrico**. Revisa el drenaje.",
-      "🌱 Buen estado general. Mantén riego moderado y fertiliza cada 3 semanas."
+      "🪴 Buen estado general, pero podría beneficiarse de **abono orgánico**.",
+      "💧 Hojas ligeramente caídas. Revisa **drenaje y humedad del sustrato**.",
+      "🌱 La planta se ve saludable. Mantén riego moderado y fertiliza cada 3 semanas."
     ];
 
-    const random = respuestas[Math.floor(Math.random() * respuestas.length)];
+    const indice = generarIndiceDesdeImagen(imageData) % diagnosticos.length;
 
     result.innerHTML = `
       <strong>Resultado:</strong><br><br>
-      ${random}<br><br>
-      ✅ Recomendación generada por GreenX
+      ${diagnosticos[indice]}<br><br>
+      ✅ Diagnóstico generado por GreenX
     `;
-  }, 2000);
+  }, 1800);
 });
