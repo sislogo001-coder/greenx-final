@@ -1,13 +1,13 @@
-﻿// Elementos
 const imageInput = document.getElementById("imageInput");
 const preview = document.getElementById("preview");
 const analyzeBtn = document.getElementById("analyzeBtn");
 const result = document.getElementById("result");
 
-// Mostrar vista previa al tomar o subir foto
+let imageLoaded = false;
+
+// Mostrar imagen al tomar foto o seleccionar archivo
 imageInput.addEventListener("change", () => {
   const file = imageInput.files[0];
-
   if (!file) return;
 
   const reader = new FileReader();
@@ -15,42 +15,35 @@ imageInput.addEventListener("change", () => {
     preview.src = reader.result;
     preview.style.display = "block";
     result.innerHTML = "";
+    imageLoaded = true;
   };
   reader.readAsDataURL(file);
 });
 
-// Diagnóstico simulado (sin IA por ahora)
+// Análisis simulado
 analyzeBtn.addEventListener("click", () => {
-  if (!preview.src) {
-    result.innerHTML = "⚠️ Primero toma o sube una foto de tu planta.";
+  if (!imageLoaded) {
+    result.innerHTML = "⚠️ Primero toma o selecciona una foto de la planta.";
     return;
   }
 
-  // Diagnóstico básico (lógica simple)
-  const diagnostics = [
-    {
-      estado: "💧 Falta de agua",
-      consejo: "Riega la planta y revisa la humedad del sustrato."
-    },
-    {
-      estado: "☀️ Exceso de sol",
-      consejo: "Colócala en luz indirecta durante unos días."
-    },
-    {
-      estado: "🌱 Falta de nutrientes",
-      consejo: "Aplica abono orgánico una vez por semana."
-    },
-    {
-      estado: "✅ Estado saludable",
-      consejo: "Mantén los cuidados actuales."
-    }
-  ];
+  result.innerHTML = "🔍 Analizando planta...";
 
-  const random = diagnostics[Math.floor(Math.random() * diagnostics.length)];
+  setTimeout(() => {
+    const respuestas = [
+      "🌿 La planta muestra signos de **falta de riego**. Se recomienda aumentar la frecuencia de agua.",
+      "☀️ Posible **exceso de sol directo**. Intenta colocarla en luz indirecta.",
+      "🪴 La planta parece saludable, pero podría beneficiarse de **abono orgánico**.",
+      "💧 Hojas ligeramente caídas: posible **estrés hídrico**. Revisa el drenaje.",
+      "🌱 Buen estado general. Mantén riego moderado y fertiliza cada 3 semanas."
+    ];
 
-  result.innerHTML = `
-    <strong>Resultado del diagnóstico:</strong><br><br>
-    ${random.estado}<br>
-    👉 ${random.consejo}
-  `;
+    const random = respuestas[Math.floor(Math.random() * respuestas.length)];
+
+    result.innerHTML = `
+      <strong>Resultado:</strong><br><br>
+      ${random}<br><br>
+      ✅ Recomendación generada por GreenX
+    `;
+  }, 2000);
 });
